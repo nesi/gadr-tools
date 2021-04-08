@@ -1,0 +1,35 @@
+{
+    "indices":
+    [
+        {
+            "index": "gadr_experiment",
+            "type": "experiment"
+        },
+        {
+            "index": "gadr_file",
+            "type": "file"
+        },
+        {
+            "index": "gadr_metadata_file",
+            "type": "metadata_file"
+        },
+        {
+            "index": "gadr_publication",
+            "type": "publication"
+        },
+        {
+            "index": "gadr_core_metadata_collection",
+            "type": "core_metadata_collection"
+        },
+        {
+            "index": "gadr_keyword",
+            "type": "keyword"
+        },
+        {
+            "index": "gadr_acknowledgement",
+            "type": "acknowledgement"
+        }
+    ],
+    "config_index": "gadr_array-config",
+    "auth_filter_field": "auth_resource_path"
+}
