@@ -1,0 +1,246 @@
+mappings:
+    - name: gadr_experiment
+      doc_type: experiment
+      type: aggregator
+      root: experiment
+      category: administrative
+      props:
+        - name: submitter_id
+        - name: project_id
+      parent_props:
+        - path: projects[project_code:code]
+      flatten_props:
+        - path: environmentals
+          props:
+            - name: host
+          sorted_by:  updated_datetime, desc
+        - path: organisms
+          props:
+            - name: breed
+          sorted_by:  updated_datetime, desc
+        - path: populations
+          props:
+            - name: p_sample_organism
+              src: sample_organism
+          sorted_by:  updated_datetime, desc
+
+      aggregated_props:
+        - name: _samples_count
+          path: samples
+          fn: count
+        - name: _aliquots_count
+          path: samples.aliquots
+          fn: count
+        - name: _read_groups_count
+          path: samples.aliquots.read_groups
+          fn: count
+        - name: _organisms_count
+          path: organisms
+          fn: count
+        - name: _populations_count
+          path: populations
+          fn: count
+        - name: _environmentals_count
+          path: environmentals
+          fn: count
+      joining_props:
+        - index: abstract_organism
+          join_on: _experiment_id
+          props:
+            - name: sample_organism
+              src: sample_organism
+              fn: set
+            - name: sample_organism_common_name
+              src: sample_organism_common_name
+              fn: set
+            - name: sample_organism_maori_name
+              src: sample_organism_maori_name
+              fn: set
+        - index: publication
+          join_on: _experiment_id
+          props:
+            - name: keyword_name
+              src: keyword_name
+              fn: set
+
+    - name: gadr_file
+      doc_type: file
+      type: collector
+      root: None
+      category: data_file
+      props:
+        - name: data_category
+        - name: data_format
+        - name: data_type
+        - name: experimental_strategy
+        - name: file_name
+        - name: file_size
+        - name: md5sum
+        - name: read_groups
+        - name: state
+        - name: type
+        - name: project_id
+        - name: object_id
+      injecting_props:
+        project:
+          props:
+            - name: project_code
+              src: code
+              fn: set
+        experiment:
+          props:
+            - name: _experiment_id
+              src: id
+              fn: set
+        organism:
+          props:
+            - name: breed
+              src: breed
+              fn: set
+            - name: strain
+              src: strain
+              fn: set
+            - name: isolate
+              src: isolate
+              fn: set
+            - name: ecotype
+              src: ecotype
+              fn: set
+            - name: _organism_id
+              src: id
+              fn: set
+        read_group:
+          props:
+            - name: instrument_model
+              src: instrument_model
+              fn: set
+            - name: read_group_name
+              src: read_group_name
+              fn: set
+            - name: _read_group_id
+              src: id
+              fn: set
+        core_metadata_collection:
+          props:
+            - name: globus_url
+              src: globus_url
+              fn: set
+            - name: globus_link
+              src: globus_url
+              fn: set
+            - name: _core_metadata_collection_id
+              src: id
+              fn: set
+            - name: cmc_id
+              src: node_id
+              fn: set
+
+
+    - name: gadr_metadata_file
+      doc_type: metadata_file
+      type: collector
+      root: None
+      category: metadata_file
+      props:
+        - name: data_category
+        - name: data_format
+        - name: data_type
+        - name: file_name
+        - name: file_size
+        - name: md5sum
+        - name: type
+        - name: project_id
+        - name: object_id
+      injecting_props:
+        project:
+          props:
+            - name: project_code
+              src: code
+              fn: set
+        experiment:
+          props:
+            - name: _experiment_id
+              src: id
+              fn: set
+        core_metadata_collection:
+          props:
+            - name: globus_url
+              src: globus_url
+              fn: set
+            - name: globus_link
+              src: globus_url
+              fn: set
+            - name: _core_metadata_collection_id
+              src: id
+              fn: set
+            - name: cmc_id
+              src: node_id
+              fn: set
+
+
+    - name: gadr_core_metadata_collection
+      doc_type: core_metadata_collection
+      type: aggregator
+      root: core_metadata_collection
+      category: biosample
+      props:
+        - name: project_id
+        - name: submitter_id
+        - name: globus_url
+        - name: creator
+        - name: publisher
+
+    - name: gadr_organism
+      doc_type: abstract_organism
+      type: collector
+      root: None
+      category: biospecimen
+      props:
+        - name: project_id
+        - name: submitter_id
+        - name: sample_organism
+        - name: sample_organism_common_name
+        - name: sample_organism_maori_name
+      injecting_props:
+        experiment:
+          props:
+            - name: _experiment_id
+              src: id
+              fn: set
+
+
+    - name: gadr_publication
+      doc_type: publication
+      type: aggregator
+      root: publication
+      category: administrative
+      props:
+        - name: submitter_id
+        - name: doi
+        - name: project_id
+      parent_props:
+        - path: keywords[keyword_name:keyword_name]
+        - path: acknowledgements[acknowledgee:acknowledgee]
+        - path: experiments[_experiment_id:id,data_description:data_description]
+
+
+    - name: gadr_acknowledgement
+      doc_type: acknowledgement
+      type: collector
+      root: acknowledgement
+      category: administrative
+      props:
+        - name: submitter_id
+        - name: acknowledgee
+        - name: project_id
+
+    - name: gadr_keyword
+      doc_type: keyword
+      type: collector
+      root: keyword
+      category: administrative
+      props:
+        - name: submitter_id
+        - name: keyword_name
+        - name: project_id
+
