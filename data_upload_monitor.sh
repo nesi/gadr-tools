@@ -128,12 +128,12 @@ function update_blank_record {
     local md5=$(file_md5 ${GUID} ${fname})
     local payload="{\"size\": ${size}, \"hashes\": {\"md5\": \"${md5}\"}, \"urls\": [\"${URL}\"] }"
     # construct cURL command
-    local curl_cmd="curl -X PUT -u \"${INDEXD_USER}:${INDEXD_PASS}\" -d "
-    local curl_args="\"${payload}\" http://localhost/index/blank/${GUID}?rev=${rev}"
+    local curl_cmd="curl -H 'Content-Type: application/json' -X PUT -u ${INDEXD_USER}:${INDEXD_PASS} -d "
+    local curl_args="'${payload}' http://localhost/index/blank/${GUID}?rev=${rev}"
     # perform PUT from inside indexd
-    local docker="docker exec -it ${INDEXD_SERVICE} ${curl_cmd} ${curl_args}"
+    local docker="docker exec -i ${INDEXD_SERVICE} ${curl_cmd} ${curl_args}"
     # the command that was run
-    echo $docker
+    #echo $docker
     local results=$(eval ${docker})
     # results from running command
     echo "${results}"
@@ -192,17 +192,18 @@ function loop_through_new_blank_records {
 
     echo "${output}" |
         while read x; do
-            local fname=$(extract_filename "${x}")
-            local guid=$(extract_guid "${x}")
-            local rev=$(extract_rev "${x}")
+            local fname=$(extract_filename "${x}" | xargs)
+            local guid=$(extract_guid "${x}" | xargs)
+            local rev=$(extract_rev "${x}" | xargs)
             # here is where I want to check if file exists in
             local filepath=${OBJSTORE}"/"${BUCKET}"/"${guid}"/${fname}"
-            if [[ -a ${fname} ]]
+            if [[ -a ${filepath} && ! -z ${fname} ]]
             then
                 # currently assuming this works
                 local results=$(update_blank_record ${fname} ${guid} ${rev})
                 # check if it is ok to uncomment -- does that mess up other fn calls?
-                echo $(date -u) $results
+                # echo does, try echoerr instead
+                echoerr $(date -u) $results
             else
                 # file DNE; complain in stderr
                 echoerr $(date -u) "file does not exist in minio; path: ${filepath}; entry: ${x}"
