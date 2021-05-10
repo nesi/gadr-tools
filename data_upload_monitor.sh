@@ -107,7 +107,7 @@ function uploaded_files_since_last_check {
 function construct_minio_download_url {
     local GUID=$1
     local fname=$2
-    local URL=${MINIO_BASE}"/minio/"${BUCKET}"/"${GUID}"/"${fname}
+    local URL=${MINIO_BASE}"/"${BUCKET}"/"${GUID}"/"${fname}
     echo $URL
 }
 
