@@ -10,16 +10,24 @@
             "type": "file"
         },
         {
+            "index": "gadr_project",
+            "type": "project"
+        },
+        {
             "index": "gadr_metadata_file",
             "type": "metadata_file"
         },
         {
-            "index": "gadr_publication",
-            "type": "publication"
-        },
-        {
             "index": "gadr_core_metadata_collection",
             "type": "core_metadata_collection"
+        },
+        {
+            "index": "gadr_organism",
+            "type": "abstract_organism"
+        },
+        {
+            "index": "gadr_publication",
+            "type": "publication"
         },
         {
             "index": "gadr_keyword",
@@ -28,8 +36,13 @@
         {
             "index": "gadr_acknowledgement",
             "type": "acknowledgement"
+        },
+        {
+            "index": "gadr_read_group",
+            "type": "read_group"
         }
     ],
     "config_index": "gadr_array-config",
+    "aggs_include_missing_data": true,
     "auth_filter_field": "auth_resource_path"
 }

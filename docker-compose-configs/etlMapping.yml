@@ -1,4 +1,74 @@
 mappings:
+    - name: gadr_project
+      doc_type: project
+      type: aggregator
+      root: project
+      category: administrative
+      props:
+        - name: name
+        - name: code
+        - name: id
+        - name: details
+        - name: contact
+        - name: dbgap_accession_number
+        - name: investigator_name
+        - name: investigator_affiliation
+        - name: contact
+        - name: support_source
+        - name: application_form
+      aggregated_props:
+        - name: raw_files
+          src: file_name
+          path: core_metadata_collections.raw_files
+          fn: list
+        - name: publications
+          src: citation_placeholder
+          path: publications
+          fn: list
+        - name: raw_files_count
+          path: core_metadata_collections.raw_files
+          fn: count
+        - name: processed_files_count
+          path: core_metadata_collections.processed_files
+          fn: count
+        - name: experiments
+          path: experiments
+          fn: count
+      injecting_props:
+        project:
+          props:
+            - name: project_id
+              src: code
+              fn: set
+      joining_props:
+        - index: abstract_organism
+          join_on: project_id
+          props:
+            - name: sample_organism
+              src: sample_organism
+              fn: set
+            - name: sample_organism_common_name
+              src: sample_organism_common_name
+              fn: set
+
+    - name: gadr_keyword
+      doc_type: keyword
+      type: collector
+      root: keyword
+      category: administrative
+      props:
+        - name: keyword_name
+        - name: project_id
+
+    - name: gadr_acknowledgement
+      doc_type: acknowledgement
+      type: collector
+      root: acknowledgement
+      category: administrative
+      props:
+        - name: acknowledgee
+        - name: project_id
+
     - name: gadr_experiment
       doc_type: experiment
       type: aggregator
@@ -7,8 +77,11 @@ mappings:
       props:
         - name: submitter_id
         - name: project_id
+        - name: experimental_description
+        - name: data_description
       parent_props:
         - path: projects[project_code:code]
+        - path: projects[application_form:application_form]
       flatten_props:
         - path: environmentals
           props:
@@ -17,13 +90,14 @@ mappings:
         - path: organisms
           props:
             - name: breed
+            - name: latitude_decimal_degrees
+            - name: longitude_decimal_degrees
           sorted_by:  updated_datetime, desc
         - path: populations
           props:
             - name: p_sample_organism
               src: sample_organism
           sorted_by:  updated_datetime, desc
-
       aggregated_props:
         - name: _samples_count
           path: samples
@@ -56,12 +130,47 @@ mappings:
             - name: sample_organism_maori_name
               src: sample_organism_maori_name
               fn: set
-        - index: publication
-          join_on: _experiment_id
+            - name: sex
+              src: sex
+              fn: set
+            - name: geo_loc_name
+              src: geo_loc_name
+              fn: set
+            - name: dev_stage
+              src: dev_stage
+              fn: set
+
+    - name: gadr_publication
+      doc_type: publication
+      type: aggregator
+      root: publication
+      category: administrative
+      props:
+        - name: citation_placeholder
+        - name: doi
+        - name: pmid
+        - name: project_id
+      joining_props:
+        - index: keyword
+          join_on: project_id
           props:
             - name: keyword_name
               src: keyword_name
               fn: set
+        - index: acknowledgement
+          join_on: project_id
+          props:
+            - name: acknowledgee
+              src: acknowledgee
+              fn: set
+        - index: project
+          join_on: project_id
+          props:
+            - name: name
+              src: project
+              fn: set
+
+
 
     - name: gadr_file
       doc_type: file
@@ -76,9 +185,7 @@ mappings:
         - name: file_name
         - name: file_size
         - name: md5sum
-        - name: read_groups
         - name: state
-        - name: type
         - name: project_id
         - name: object_id
       injecting_props:
@@ -86,6 +193,9 @@ mappings:
           props:
             - name: project_code
               src: code
+              fn: set
+            - name: application_form
+              src: application_form
               fn: set
         experiment:
           props:
@@ -131,9 +241,6 @@ mappings:
             - name: _core_metadata_collection_id
               src: id
               fn: set
-            - name: cmc_id
-              src: node_id
-              fn: set
 
 
     - name: gadr_metadata_file
@@ -148,7 +255,6 @@ mappings:
         - name: file_name
         - name: file_size
         - name: md5sum
-        - name: type
         - name: project_id
         - name: object_id
       injecting_props:
@@ -173,10 +279,16 @@ mappings:
             - name: _core_metadata_collection_id
               src: id
               fn: set
-            - name: cmc_id
-              src: node_id
-              fn: set
 
+    - name: gadr_read_group
+      doc_type: read_group
+      type: aggregator
+      root: read_group
+      category: biosample
+      props:
+        - name: project_id
+        - name: submitter_id
+        - name: id
 
     - name: gadr_core_metadata_collection
       doc_type: core_metadata_collection
@@ -201,46 +313,20 @@ mappings:
         - name: sample_organism
         - name: sample_organism_common_name
         - name: sample_organism_maori_name
+        - name: submitter_id
+        - name: geo_loc_name
+        - name: latitude_decimal_degrees
+        - name: longitude_decimal_degrees
+        - name: dev_stage
+        - name: sex
       injecting_props:
         experiment:
           props:
             - name: _experiment_id
               src: id
               fn: set
-
-
-    - name: gadr_publication
-      doc_type: publication
-      type: aggregator
-      root: publication
-      category: administrative
-      props:
-        - name: submitter_id
-        - name: doi
-        - name: project_id
-      parent_props:
-        - path: keywords[keyword_name:keyword_name]
-        - path: acknowledgements[acknowledgee:acknowledgee]
-        - path: experiments[_experiment_id:id,data_description:data_description]
-
-
-    - name: gadr_acknowledgement
-      doc_type: acknowledgement
-      type: collector
-      root: acknowledgement
-      category: administrative
-      props:
-        - name: submitter_id
-        - name: acknowledgee
-        - name: project_id
-
-    - name: gadr_keyword
-      doc_type: keyword
-      type: collector
-      root: keyword
-      category: administrative
-      props:
-        - name: submitter_id
-        - name: keyword_name
-        - name: project_id
-
+        read_group:
+          props:
+            - name: _read_group_id
+              src: id
+              fn: set

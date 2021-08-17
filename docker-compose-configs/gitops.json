@@ -1,30 +1,14 @@
 {
   "gaTrackingId": "UA-119127212-1",
   "components": {
-    "appName": "Genomics Aotearoa Data Repository BETA",
+    "appName": "Aotearoa Genomics Data Repository",
     "index": {
       "introduction": {
-        "heading": "Data Repository BETA",
-        "text": "Genomics Aotearoa Data Repository supports management and sharing of taonga species data for the research community.",
+        "heading": "Aotearoa Genomics Data Repository",
+        "text": "The Aotearoa Genomics Data Repository has been jointly developed by Genomics Aoteoroa and NeSI to provide a secure place for the New Zealand research community to store and share genomic data. Version 1.0 of the repository is up and running, but we are still adding functionality, so you will see ongoing improvements as we implement new features.",
         "link": "/submission"
       },
       "buttons": [
-        {
-          "name": "Explore Data",
-          "icon": "anvil-explore",
-          "body": "The Exploration Page gives you insights and a clear overview under selected factors.",
-          "link": "/explorer",
-          "label": "Explore data",
-          "color": "#035C94"
-        },
-        {
-          "name": "Submit Data",
-          "icon": "anvil-analyze",
-          "body": "You can submit your data here to make it more findable and sharable.",
-          "link": "/submission",
-          "label": "Submit data",
-          "color": "#035C94"
-        }
       ],
       "homepageChartNodes": [
         {
@@ -42,54 +26,66 @@
       ]
     },
     "footerLogos": [
-      {
-        "src": "/src/img/gen3.png",
-        "href": "https://ctds.uchicago.edu/gen3",
-        "alt": "Gen3 Data Commons"
-      }
     ],
     "navigation": {
-      "title": "Data Repository BETA",
+      "title": "Aotearoa Genomics Data Repository",
       "items": [
         {
-          "icon": "exploration",
-          "link": "/static/projects.html",
+          "icon": "icomlayer21",
+          "link": "/study-viewer/project",
           "color": "#035C94",
           "name": "Projects"
         },
         {
-          "icon": "exploration",
+          "icon": "icomlayer11",
           "link": "/explorer",
           "color": "#035C94",
           "name": "Exploration"
         },
         {
-          "icon": "dictionary",
+          "icon": "icombook25",
           "link": "/DD",
           "color": "#035C94",
           "name": "Metadata Dictionary"
         },
         {
-          "icon": "profile",
+          "icon": "icomfingerprint7",
           "link": "/identity",
           "color": "#035C94",
           "name": "Profile"
+        },
+        {
+          "icon": "icomhelp4",
+          "link": "/about",
+          "color": "#035C94",
+          "name": "About"
+        },
+        {
+          "icon": "icomspeech29",
+          "link": "https://gadr.zendesk.com/hc/en-gb/sections/360000915255-User-Guides",
+          "color": "#035C94",
+          "name": "Support"
         }
       ]
     },
     "login": {
-      "title": "Genomics Aotearoa Data Repository BETA",
-      "subTitle": "Explore, Analyse, and Share Data",
-      "text": "This website is an early development version of data repository for Genomics Aotearoa.",
+      "title": "Aotearoa Genomics Data Repository",
+      "subTitle": "Explore and Share Data",
+      "text": "This website is a data repository commissioned by Genomics Aotearoa for New Zealand's genomics researchers to host their high value genome data.",
       "contact": "Please direct your feedback for the development team at NeSI.",
-      "email": "jun.huh@nesi.org.nz"
+      "email": "gasupport@nesi.org.nz"
+    },
+    "certs": {
+      "privacyPolicy": {
+        "text": "testing"
+      }
     },
     "categorical9Colors": ["#07a551", "#175676", "#ee1d24", "#eb048d", "#414099", "#FFA630", "#AE8799", "#1A535C", "#462255"],
     "categorical2Colors": ["#6d6e70", "#c02f42"]
   },
   "featureFlags": {
     "explorer": true,
-    "explorerPublic": false
+    "explorerPublic": true
   },
   "graphql": {
     "boardCounts": [
@@ -117,17 +113,168 @@
     "projectDetails": "boardCounts"
   },
 
-
   "explorerConfig": [
+  {
+      "tabTitle": "Experiments",
+      "charts": {
+        "organisms": {
+          "chartType": "pie",
+          "title": "Sample Organisms"
+        },
+        "populations": {
+          "chartType": "pie",
+          "title": "Sample Population Genomics"
+        },
+        "environmentals": {
+          "chartType": "pie",
+          "title": "Sample Environmental Metadata"
+        }
+      },
+      "filters": {
+        "tabs": [
+          {
+            "title": "By Sample",
+            "fields": [
+              "geo_loc_name",
+              "latitude_decimal_degrees",
+              "longitude_decimal_degrees",
+              "dev_stage",
+              "sex",
+              "sample_organism",
+              "sample_organism_maori_name",
+              "sample_organism_common_name",
+              "project_id"
+            ]
+          },
+          {
+            "title": "By Project",
+            "fields": [
+              "project_id"
+            ]
+          }
+        ]
+     },
+      "table": {
+        "enabled": true,
+        "fields": [
+          "application_form",
+          "project_id",
+          "project_code",
+          "submitter_id",
+          "experimental_description",
+          "data_description",
+          "sample_organism"
+        ],
+      "linkFields": [
+        "globus_url",
+        "project_id"
+      ],
+      "applyFields": [
+        "application_form"
+      ]
+      },
+     "rowAccessor": "project_id",
+      "buttons": [
+        {
+          "enabled": false
+        }
+      ],
+      "guppyConfig": {
+        "dataType": "experiment",
+        "nodeCountTitle": "Sample Types",
+        "fieldMapping": [
+          {
+            "field": "sample_organism",
+            "name": "Scientific Name"
+          },
+          {
+            "field": "sample_organism_maori_name",
+            "name": "Maori Name"
+          },
+          {
+            "field": "sample_organism_common_name",
+            "name": "Common Name"
+          },
+          {
+            "field": "geo_loc_name",
+            "name": "Geographic Location Name"
+          },
+          {
+            "field": "latitude_decimal_degrees",
+            "name": "Latitude Decimal Degrees"
+          },
+          {
+            "field": "longitude_decimal_degrees",
+            "name": "Longitude Decimal Degrees"
+          },
+          {
+            "field": "dev_stage",
+            "name": "Development Stage"
+          },
+          {
+            "field": "sex",
+            "name": "Sex"
+          },
+          {
+            "field": "project_id",
+            "name": "Project"
+          },
+          {
+            "field": "submitter_id",
+            "name": "Experiment ID"
+          }
+        ]
+      }
+    },
+    {
+      "tabTitle": "Publications",
+      "charts":{
+          "keyword_name": {
+              "chartType": "stackedBar",
+              "title": "Keywords"
+          },
+          "acknowledgee": {
+              "chartType": "stackedBar",
+              "title": "Acknowledgees"
+          }
+      },
+      "filters":{
+        "tabs": [
+          {
+            "title": "Publications",
+            "fields":[
+              "keyword_name",
+              "name",
+              "acknowledgee"
+            ]
+          }
+        ]
+      },
+      "table": {
+          "enabled": true,
+          "fields": [
+              "keyword_name",
+              "name",
+              "acknowledgee",
+              "doi"
+          ]
+      },
+      "rowAccessor": "project_id",
+      "guppyConfig": {
+          "dataType": "publication",
+          "fieldMapping": [],
+          "nodeCountTitle": "Publications"
+      }
+    },
     {
       "tabTitle": "Files",
       "charts": {
         "data_format": {
-          "chartType": "pie",
+          "chartType": "stackedBar",
           "title": "File Format"
         },
         "project_id": {
-          "chartType": "pie",
+          "chartType": "stackedBar",
           "title": "Project"
         }
       },
@@ -140,37 +287,43 @@
             ]
           },
           {
+              "title": "Data",
+              "fields": [
+                "data_category",
+                "data_type",
+                "data_format"
+              ]
+          },
+          {
             "title": "Method",
             "fields": [
               "instrument_model",
               "experimental_strategy"
             ]
-          },
-          {
-            "title": "Data",
-            "fields": [
-              "data_category",
-              "data_format"
-            ]
           }
         ]
      },
-      "table": {
-        "enabled": true,
-        "fields": [
-          "project_id",
-          "project_code",
-          "data_category",
-          "data_format",
-          "file_name",
-          "file_size",
-          "globus_url"
-        ],
+     "table": {
+       "enabled": true,
+       "fields": [
+         "application_form",
+         "project_id",
+         "project_code",
+         "data_category",
+         "data_format",
+         "data_type",
+         "file_name",
+         "file_size",
+         "globus_url"
+       ],
        "linkFields": [
          "globus_url",
          "project_id"
+       ],
+       "applyFields": [
+         "application_form"
        ]
-      },
+     },
      "rowAccessor": "project_id",
       "guppyConfig": {
         "dataType": "file",
@@ -204,173 +357,38 @@
         "tooltipText": "You have not selected any files to export."
       }
       ]
-    },
-
-
-
-
-    {
-      "tabTitle": "Metadata Files",
-      "charts": {
-        "data_format": {
-          "chartType": "pie",
-          "title": "File Format"
-        },
-        "project_id": {
-          "chartType": "pie",
-          "title": "Project"
-        }
-      },
-      "filters": {
-        "tabs": [
-          {
-            "title": "Project",
-            "fields": [
-              "project_id"
-            ]
-          },
-          {
-            "title": "Data",
-            "fields": [
-              "data_category",
-              "data_format"
-            ]
-          }
-        ]
-     },
-      "table": {
-        "enabled": true,
-        "fields": [
-          "project_id",
-          "project_code",
-          "data_category",
-          "data_format",
-          "file_name",
-          "file_size",
-          "globus_url",
-          "object_id"
-        ],
-       "linkFields": [
-         "globus_url",
-         "project_id",
-         "object_id"
-       ]
-      },
-     "rowAccessor": "project_id",
-      "guppyConfig": {
-        "dataType": "metadata_file",
-        "fieldMapping": [
-          {
-            "field": "globus_url",
-            "name": "Globus Access"
-          },
-          {
-            "field": "project_id",
-            "name": "Project"
-          }
-        ],
-        "nodeCountTitle": "Files",
-        "manifestMapping": {
-          "resourceIndexType": "metadata_file",
-          "referenceIdFieldInResourceIndex": "object_id",
-          "referenceIdFieldInDataIndex": "object_id"
-        },
-        "accessibleFieldCheckList": ["project_id"],
-        "accessibleValidationField": "project_id",
-        "downloadAccessor": "object_id"
-
-      },
-      "buttons": [
-      {
-        "enabled": true,
-        "type": "file-manifest",
-        "title": "Download Manifest",
-        "rightIcon": "external-link",
-        "fileName": "manifest.json",
-        "tooltipText": "You have not selected any files to export."
-      }
-      ]
-    },
-
-
-    {
-      "tabTitle": "Experiments",
-      "charts": {
-        "_organisms_count": {
-          "chartType": "count",
-          "title": "Sample Organisms"
-        },
-        "_populations_count": {
-          "chartType": "count",
-          "title": "Sample Population Genomics"
-        },
-        "_environmentals_count": {
-          "chartType": "count",
-          "title": "Sample Population Genomics"
-        }
-      },
-      "filters": {
-        "tabs": [
-          {
-            "title": "By Sample",
-            "fields": [
-              "sample_organism",
-              "sample_organism_maori_name",
-              "sample_organism_common_name",
-              "project_id"
-            ]
-          },
-          {
-            "title": "By Project",
-            "fields": [
-              "project_id"
-            ]
-          }
-        ]
-     },
-      "table": {
-        "enabled": true,
-        "fields": [
-          "project_id",
-          "project_code",
-          "sample_organism",
-          "sample_organism_maori_name",
-          "sample_organism_common_name"
-        ],
-        "linkFields": [
-          "globus_url",
-          "project_id"
-        ]
-      },
-     "rowAccessor": "project_id",
-      "buttons": [
-        {
-          "enabled": false
-        }
-      ],
-      "guppyConfig": {
-        "dataType": "experiment",
-        "nodeCountTitle": "Sample Types",
-        "fieldMapping": [
-          {
-            "field": "sample_organism",
-            "name": "Scientific Name"
-          },
-          {
-            "field": "sample_organism_maori_name",
-            "name": "Māori Name"
-          },
-          {
-            "field": "sample_organism_common_name",
-            "name": "Common Name"
-          },
-          {
-            "field": "project_id",
-            "name": "Project"
-          }
-        ]
-      }
     }
-  ]
-}
 
+  ],
+
+  "studyViewerConfig": [{
+      "dataType": "core_metadata_collection",
+      "title": "Collections",
+      "titleField": "submitter_id",
+      "listItemConfig": {
+          "blockFields": ["project_id", "globus_url", "creator"],
+          "tableFields": []
+      },
+      "fieldMapping": [],
+      "rowAccessor": "submitter_id",
+      "openMode": "open-all",
+      "openFirstRowAccessor": "",
+      "buttons": [
+      ]
+  },{
+      "dataType": "project",
+      "title": "Projects",
+      "titleField": "name",
+      "listItemConfig": {
+          "blockFields": ["details", "investigator_name", "contact", "investigator_affiliation", "support_source"],
+          "tableFields": ["sample_organism", "experiments", "raw_files_count", "processed_files_count"],
+          "customFields": ["application_form", "citation_placeholder"],
+          "applicationFields": ["application_form"]
+      },
+      "fieldMapping": [],
+      "rowAccessor": "dbgap_accession_number",
+      "openMode": "open-first",
+      "openFirstRowAccessor": "",
+      "buttons": []
+ }]
+}
