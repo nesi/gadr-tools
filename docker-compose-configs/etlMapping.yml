@@ -7,7 +7,6 @@ mappings:
       props:
         - name: name
         - name: code
-        - name: id
         - name: details
         - name: contact
         - name: dbgap_accession_number
@@ -35,14 +34,7 @@ mappings:
           path: experiments
           fn: count
       injecting_props:
-        project:
-          props:
-            - name: project_id
-              src: code
-              fn: set
-      joining_props:
-        - index: abstract_organism
-          join_on: project_id
+        abstract_organism:
           props:
             - name: sample_organism
               src: sample_organism
@@ -150,6 +142,8 @@ mappings:
         - name: doi
         - name: pmid
         - name: project_id
+      parent_props:
+        - path: projects[name:name]
       joining_props:
         - index: keyword
           join_on: project_id
@@ -163,13 +157,6 @@ mappings:
             - name: acknowledgee
               src: acknowledgee
               fn: set
-        - index: project
-          join_on: project_id
-          props:
-            - name: name
-              src: project
-              fn: set
-
 
 
     - name: gadr_file
