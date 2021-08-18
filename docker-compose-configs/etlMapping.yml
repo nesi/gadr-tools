@@ -46,22 +46,34 @@ mappings:
 
     - name: gadr_keyword
       doc_type: keyword
-      type: aggregator
+      type: collector
       root: keyword
       category: administrative
       props:
         - name: keyword_name
         - name: project_id
-
+      injecting_props:
+        publication:
+          props:
+            - name: _publication_id
+              src: id
+              fn: set
+ 
     - name: gadr_acknowledgement
       doc_type: acknowledgement
-      type: aggregator
+      type: collector
       root: acknowledgement
       category: administrative
       props:
         - name: acknowledgee
         - name: project_id
-
+      injecting_props:
+        publication:
+          props:
+            - name: _publication_id
+              src: id
+              fn: set
+ 
     - name: gadr_experiment
       doc_type: experiment
       type: aggregator
@@ -76,7 +88,7 @@ mappings:
         - path: projects[project_code:code]
         - path: projects[application_form:application_form]
       flatten_props:
-        - path: environmentals
+        - path: metagenomes
           props:
             - name: host
           sorted_by:  updated_datetime, desc
@@ -107,8 +119,8 @@ mappings:
         - name: _populations_count
           path: populations
           fn: count
-        - name: _environmentals_count
-          path: environmentals
+        - name: _metagenomes_count
+          path: metagenomes
           fn: count
       joining_props:
         - index: abstract_organism
@@ -143,22 +155,44 @@ mappings:
         - name: doi
         - name: pmid
         - name: project_id
+        - name: id
       parent_props:
         - path: projects[name:name]
+      # does not appear to work
+      #aggregated_props:
+      #  - name: keyword_name
+      #    path: keywords
+      #    fn: set
+      #  - name: acknowledgee
+      #    path: acknowledgements
+      #    fn: set
       joining_props:
-        - index: keyword
-          join_on: project_id
-          props:
-            - name: keyword_name
-              src: keyword_name
-              fn: set
         - index: acknowledgement
-          join_on: project_id
+          join_on: _publication_id
           props:
             - name: acknowledgee
               src: acknowledgee
               fn: set
-
+        - index: keyword
+          join_on: _publication_id
+          props:
+            - name: keyword_name
+              src: keyword_name
+              fn: set
+ 
+      #joining_props:
+      #  - index: keyword
+      #    join_on: project_id
+      #    props:
+      #      - name: keyword_name
+      #        src: keyword_name
+      #        fn: set
+      #  - index: acknowledgement
+      #    join_on: project_id
+      #    props:
+      #      - name: acknowledgee
+      #        src: acknowledgee
+      #        fn: set
 
     - name: gadr_file
       doc_type: file
