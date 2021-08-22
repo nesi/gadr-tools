@@ -45,7 +45,7 @@ mappings:
 
     - name: gadr_keyword
       doc_type: keyword
-      type: collector
+      type: aggregator
       root: keyword
       category: administrative
       props:
@@ -54,7 +54,7 @@ mappings:
 
     - name: gadr_acknowledgement
       doc_type: acknowledgement
-      type: collector
+      type: aggregator
       root: acknowledgement
       category: administrative
       props:
@@ -275,7 +275,6 @@ mappings:
       props:
         - name: project_id
         - name: submitter_id
-        - name: id
 
     - name: gadr_core_metadata_collection
       doc_type: core_metadata_collection
@@ -310,10 +309,5 @@ mappings:
         experiment:
           props:
             - name: _experiment_id
-              src: id
-              fn: set
-        read_group:
-          props:
-            - name: _read_group_id
               src: id
               fn: set
