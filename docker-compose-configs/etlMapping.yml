@@ -33,8 +33,9 @@ mappings:
         - name: experiments
           path: experiments
           fn: count
-      injecting_props:
-        abstract_organism:
+      joining_props:
+        - index: abstract_organism
+          join_on: project_id
           props:
             - name: sample_organism
               src: sample_organism

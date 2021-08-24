@@ -1,11 +1,11 @@
 {
   "gaTrackingId": "UA-119127212-1",
   "components": {
-    "appName": "Aotearoa Genomics Data Repository",
+    "appName": "Aotearoa Genomic Data Repository",
     "index": {
       "introduction": {
-        "heading": "Aotearoa Genomics Data Repository",
-        "text": "The Aotearoa Genomics Data Repository has been jointly developed by Genomics Aoteoroa and NeSI to provide a secure place for the New Zealand research community to store and share genomic data. Version 1.0 of the repository is up and running, but we are still adding functionality, so you will see ongoing improvements as we implement new features.",
+        "heading": "Aotearoa Genomic Data Repository",
+        "text": "The Aotearoa Genomic Data Repository has been jointly developed by Genomics Aoteoroa and NeSI to provide a secure place for the New Zealand research community to store and share genomic data. Version 1.0 of the repository is up and running, but we are still adding functionality, so you will see ongoing improvements as we implement new features.",
         "link": "/submission"
       },
       "buttons": [
@@ -28,7 +28,7 @@
     "footerLogos": [
     ],
     "navigation": {
-      "title": "Aotearoa Genomics Data Repository",
+      "title": "Aotearoa Genomic Data Repository",
       "items": [
         {
           "icon": "icomlayer21",
@@ -69,7 +69,7 @@
       ]
     },
     "login": {
-      "title": "Aotearoa Genomics Data Repository",
+      "title": "Aotearoa Genomic Data Repository",
       "subTitle": "Explore and Share Data",
       "text": "This website is a data repository commissioned by Genomics Aotearoa for New Zealand's genomics researchers to host their high value genome data.",
       "contact": "Please direct your feedback for the development team at NeSI.",
@@ -142,14 +142,13 @@
               "sex",
               "sample_organism",
               "sample_organism_maori_name",
-              "sample_organism_common_name",
-              "project_id"
+              "sample_organism_common_name"
             ]
           },
           {
             "title": "By Project",
             "fields": [
-              "project_id"
+              "project_code"
             ]
           }
         ]
@@ -158,7 +157,6 @@
         "enabled": true,
         "fields": [
           "application_form",
-          "project_id",
           "project_code",
           "submitter_id",
           "experimental_description",
@@ -166,8 +164,10 @@
           "sample_organism"
         ],
       "linkFields": [
-        "globus_url",
-        "project_id"
+        "globus_url"
+      ],
+      "studyProjectFields": [
+        "project_code"
       ],
       "applyFields": [
         "application_form"
@@ -216,7 +216,7 @@
             "name": "Sex"
           },
           {
-            "field": "project_id",
+            "field": "project_code",
             "name": "Project"
           },
           {
@@ -232,10 +232,6 @@
           "keyword_name": {
               "chartType": "stackedBar",
               "title": "Keywords"
-          },
-          "acknowledgee": {
-              "chartType": "stackedBar",
-              "title": "Acknowledgees"
           }
       },
       "filters":{
@@ -283,14 +279,12 @@
           {
             "title": "Project",
             "fields": [
-              "project_id"
+              "project_code"
             ]
           },
           {
               "title": "Data",
               "fields": [
-                "data_category",
-                "data_type",
                 "data_format"
               ]
           },
@@ -307,7 +301,6 @@
        "enabled": true,
        "fields": [
          "application_form",
-         "project_id",
          "project_code",
          "data_category",
          "data_format",
@@ -319,6 +312,9 @@
        "linkFields": [
          "globus_url",
          "project_id"
+       ],
+       "studyProjectFields": [
+         "project_code"
        ],
        "applyFields": [
          "application_form"
@@ -333,7 +329,7 @@
             "name": "Globus Access"
           },
           {
-            "field": "project_id",
+            "field": "project_code",
             "name": "Project"
           }
         ],
@@ -390,5 +386,5 @@
       "openMode": "open-first",
       "openFirstRowAccessor": "",
       "buttons": []
- }]
+  }]
 }
