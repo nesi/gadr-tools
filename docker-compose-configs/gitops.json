@@ -125,9 +125,9 @@
           "chartType": "pie",
           "title": "Sample Population Genomics"
         },
-        "environmentals": {
+        "metagenomes": {
           "chartType": "pie",
-          "title": "Sample Environmental Metadata"
+          "title": "Sample Metagenomics"
         }
       },
       "filters": {
