@@ -249,6 +249,7 @@
       "table": {
           "enabled": true,
           "fields": [
+              "citation_placeholder",
               "keyword_name",
               "name",
               "acknowledgee",
@@ -258,7 +259,12 @@
       "rowAccessor": "project_id",
       "guppyConfig": {
           "dataType": "publication",
-          "fieldMapping": [],
+          "fieldMapping": [
+            {
+              "field": "citation_placeholder",
+              "name": "Citation"
+            }
+          ],
           "nodeCountTitle": "Publications"
       }
     },
