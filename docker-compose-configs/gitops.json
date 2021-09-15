@@ -83,6 +83,7 @@
     "categorical9Colors": ["#07a551", "#175676", "#ee1d24", "#eb048d", "#414099", "#FFA630", "#AE8799", "#1A535C", "#462255"],
     "categorical2Colors": ["#6d6e70", "#c02f42"]
   },
+  "requiredCerts": [],
   "featureFlags": {
     "explorer": true,
     "explorerPublic": true
